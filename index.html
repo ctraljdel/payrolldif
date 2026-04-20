@@ -45,15 +45,171 @@
     margin: 20px 0 10px 0;
     color: #333;
   }
-  .chart-wrapper {
-    width: 100%;
-    overflow-x: auto;
-    margin: 20px 0;
-    padding: 16px;
+  /* ======= HTML Chart Styles ======= */
+  .chart-section {
     background: #FAFAFA;
     border-radius: 8px;
+    padding: 32px;
+    margin: 24px 0;
   }
-  svg { display: block; margin: 0 auto; max-width: 100%; height: auto; }
+  .chart-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: #1A1A1A;
+    margin: 0 0 8px 0;
+  }
+  .chart-subtitle {
+    font-size: 13px;
+    color: #666;
+    margin: 0 0 28px 0;
+  }
+  .chart-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 24px;
+    margin-bottom: 28px;
+    padding: 14px 16px;
+    background: #FFFFFF;
+    border-radius: 6px;
+    border: 1px solid #E8E8E8;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #333;
+  }
+  .legend-swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+  /* Bar row */
+  .bar-row {
+    display: grid;
+    grid-template-columns: 160px 1fr 140px;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 18px;
+  }
+  .bar-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+    text-align: right;
+  }
+  .bar-label small {
+    display: block;
+    font-weight: 400;
+    color: #777;
+    font-size: 11px;
+    margin-top: 2px;
+  }
+  .bar-track {
+    position: relative;
+    height: 36px;
+    background: #F0F0F0;
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+  }
+  .bar-segment {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .bar-segment.tiny { color: transparent; }
+  .bar-total {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1A1A1A;
+    font-variant-numeric: tabular-nums;
+  }
+  .bar-total small {
+    display: block;
+    font-weight: 400;
+    color: #777;
+    font-size: 11px;
+    margin-top: 2px;
+  }
+  /* Breakdown list (for pie replacement) */
+  .breakdown-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 8px;
+  }
+  @media (max-width: 768px) {
+    .breakdown-grid { grid-template-columns: 1fr; }
+    .bar-row { grid-template-columns: 120px 1fr 120px; gap: 10px; }
+    .bar-label { font-size: 12px; }
+  }
+  .breakdown-card {
+    background: #FFFFFF;
+    border: 1px solid #E8E8E8;
+    border-radius: 8px;
+    padding: 20px 24px;
+  }
+  .breakdown-card h4 {
+    margin: 0 0 4px 0;
+    font-size: 15px;
+    color: #1A1A1A;
+  }
+  .breakdown-card .total-line {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 16px;
+  }
+  .breakdown-item {
+    display: grid;
+    grid-template-columns: 14px 1fr 70px 60px;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    font-size: 13px;
+    border-bottom: 1px solid #F0F0F0;
+  }
+  .breakdown-item:last-child { border-bottom: none; }
+  .breakdown-item .swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+  }
+  .breakdown-item .amt {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    color: #333;
+  }
+  .breakdown-item .pct {
+    text-align: right;
+    font-size: 12px;
+    color: #777;
+  }
+  .breakdown-footer {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 2px solid #E0E0E0;
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+    color: #1A1A1A;
+  }
+  .gross-ref-line {
+    font-size: 12px;
+    color: #888;
+    font-style: italic;
+    text-align: center;
+    margin-top: 6px;
+  }
   table {
     width: 100%;
     border-collapse: collapse;
@@ -125,10 +281,11 @@
   <p class="subtitle">Monthly breakdown and period totals for April–December 2026 and January–December 2027</p>
 
   <div class="rules-box">
-    <strong>Rules Applied</strong> (Philippine laws: NIRC, RA 10963 TRAIN Law, RR 11-2018, RA 11199 SSS Law, RA 11223 UHC Act, HDMF Circular 460)
+    <strong>Rules Applied</strong> (Philippine laws: NIRC, RA 10963 TRAIN Law, PD 851, RR 11-2018, RA 11199 SSS Law, RA 11223 UHC Act, HDMF Circular 460)
     <ul>
       <li><strong>BIR withholding tax:</strong> TRAIN Law brackets, computed on (gross taxable compensation − mandatory employee contributions)</li>
       <li><strong>Special allowance:</strong> Fixed monthly cash allowances outside the de minimis list are <em>fully taxable</em></li>
+      <li><strong>13th Month Pay (PD 851):</strong> = total <em>basic salary earned</em> during the year ÷ 12. Allowances are excluded. First ₱90,000 is tax-exempt (TRAIN Law); excess is taxable.</li>
       <li><strong>SSS:</strong> 15% total rate (5% EE + 10% ER + EC). MSC ceiling ₱35,000, includes allowances</li>
       <li><strong>PhilHealth:</strong> 5% premium (2.5% EE + 2.5% ER). Base = <em>basic salary only</em>, floor ₱10K, ceiling ₱100K</li>
       <li><strong>Pag-IBIG:</strong> 2% EE + 2% ER, capped at ₱10,000 monthly base (max ₱200 each)</li>
@@ -137,7 +294,7 @@
 
   <h2>Visual Overview</h2>
   <div class="chart-wrapper">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1000" font-family="Helvetica, Arial, sans-serif">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1800" font-family="Helvetica, Arial, sans-serif">
       <rect width="1400" height="1000" fill="#FFFFFF"/>
       <text x="700" y="40" text-anchor="middle" font-size="26" font-weight="700" fill="#1A1A1A">Philippine Payroll: Deductions &amp; Take-Home Pay</text>
       <text x="700" y="65" text-anchor="middle" font-size="14" fill="#666">Monthly breakdown + period totals (Apr-Dec 2026, Jan-Dec 2027)</text>
@@ -348,27 +505,37 @@
     </tbody>
   </table>
 
-  <h2>Period Totals</h2>
+  <h2>13th Month Pay Computation</h2>
+  <p>Under PD 851, the 13th month pay equals the total <strong>basic salary</strong> earned during the calendar year divided by 12. Allowances are <em>not included</em>. Under the TRAIN Law, the first <strong>₱90,000</strong> of 13th month + other benefits is tax-exempt.</p>
 
-  <h3>April – December 2026 (9 months)</h3>
   <table>
     <thead>
       <tr>
-        <th>Item</th>
-        <th class="num">Employee A</th>
-        <th class="num">Employee B</th>
+        <th>Period</th>
+        <th class="num">Employee A<br><small>(₱50,000 Basic)</small></th>
+        <th class="num">Employee B<br><small>(₱20,000 Basic)</small></th>
       </tr>
     </thead>
     <tbody>
-      <tr><td>Total Gross Pay</td><td class="num">₱450,000.00</td><td class="num">₱450,000.00</td></tr>
-      <tr><td>Total Employee Deductions</td><td class="num">₱69,915.00</td><td class="num">₱64,515.00</td></tr>
-      <tr class="takehome"><td>Total Take-Home Pay</td><td class="num">₱380,085.00</td><td class="num">₱385,485.00</td></tr>
-      <tr><td>Total Employer Contributions</td><td class="num">₱44,820.00</td><td class="num">₱38,070.00</td></tr>
-      <tr class="total"><td>Total Employer Cost</td><td class="num">₱494,820.00</td><td class="num">₱488,070.00</td></tr>
+      <tr><td>Apr–Dec 2026 (9 mos): Basic earned</td><td class="num">₱450,000.00</td><td class="num">₱180,000.00</td></tr>
+      <tr><td>Apr–Dec 2026: 13th Month Pay (÷ 12)</td><td class="num">₱37,500.00</td><td class="num">₱15,000.00</td></tr>
+      <tr><td>Apr–Dec 2026: Taxable portion (over ₱90K)</td><td class="num">₱0.00</td><td class="num">₱0.00</td></tr>
+      <tr class="takehome"><td>Apr–Dec 2026: Net 13th Month (take-home)</td><td class="num">₱37,500.00</td><td class="num">₱15,000.00</td></tr>
+      <tr><td colspan="3" style="background:#F5F5F5; font-weight:600; font-size:12px; color:#666; text-transform:uppercase;">Full Year 2027</td></tr>
+      <tr><td>Jan–Dec 2027: Basic earned</td><td class="num">₱600,000.00</td><td class="num">₱240,000.00</td></tr>
+      <tr><td>Jan–Dec 2027: 13th Month Pay (÷ 12)</td><td class="num">₱50,000.00</td><td class="num">₱20,000.00</td></tr>
+      <tr><td>Jan–Dec 2027: Taxable portion (over ₱90K)</td><td class="num">₱0.00</td><td class="num">₱0.00</td></tr>
+      <tr class="takehome"><td>Jan–Dec 2027: Net 13th Month (take-home)</td><td class="num">₱50,000.00</td><td class="num">₱20,000.00</td></tr>
     </tbody>
   </table>
 
-  <h3>January – December 2027 (12 months, full year)</h3>
+  <div class="insight-box">
+    <strong>Tax Note:</strong> All 13th month amounts above fall well below the ₱90,000 tax-exempt threshold, so they are received in full by the employees with no additional withholding tax. Note that Employee B's 13th month is significantly smaller than Employee A's because only the ₱20,000 basic salary counts — the ₱30,000 special allowance is excluded by law.
+  </div>
+
+  <h2>Period Totals (Including 13th Month Pay)</h2>
+
+  <h3>April – December 2026 (9 months + 13th month)</h3>
   <table>
     <thead>
       <tr>
@@ -378,17 +545,39 @@
       </tr>
     </thead>
     <tbody>
-      <tr><td>Total Gross Pay</td><td class="num">₱600,000.00</td><td class="num">₱600,000.00</td></tr>
+      <tr><td>Regular Gross Pay (9 months)</td><td class="num">₱450,000.00</td><td class="num">₱450,000.00</td></tr>
+      <tr><td>13th Month Pay</td><td class="num">₱37,500.00</td><td class="num">₱15,000.00</td></tr>
+      <tr><td><strong>Total Gross Earnings</strong></td><td class="num"><strong>₱487,500.00</strong></td><td class="num"><strong>₱465,000.00</strong></td></tr>
+      <tr><td>Total Employee Deductions</td><td class="num">₱69,915.00</td><td class="num">₱64,515.00</td></tr>
+      <tr class="takehome"><td>Total Take-Home Pay</td><td class="num">₱417,585.00</td><td class="num">₱400,485.00</td></tr>
+      <tr><td>Total Employer Contributions</td><td class="num">₱44,820.00</td><td class="num">₱38,070.00</td></tr>
+      <tr class="total"><td>Total Employer Cost (incl. 13th mo)</td><td class="num">₱532,320.00</td><td class="num">₱503,070.00</td></tr>
+    </tbody>
+  </table>
+
+  <h3>January – December 2027 (12 months + 13th month)</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th class="num">Employee A</th>
+        <th class="num">Employee B</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Regular Gross Pay (12 months)</td><td class="num">₱600,000.00</td><td class="num">₱600,000.00</td></tr>
+      <tr><td>13th Month Pay</td><td class="num">₱50,000.00</td><td class="num">₱20,000.00</td></tr>
+      <tr><td><strong>Total Gross Earnings</strong></td><td class="num"><strong>₱650,000.00</strong></td><td class="num"><strong>₱620,000.00</strong></td></tr>
       <tr><td>Total Employee Deductions</td><td class="num">₱93,220.00</td><td class="num">₱86,020.00</td></tr>
-      <tr class="takehome"><td>Total Take-Home Pay</td><td class="num">₱506,780.00</td><td class="num">₱513,980.00</td></tr>
+      <tr class="takehome"><td>Total Take-Home Pay</td><td class="num">₱556,780.00</td><td class="num">₱533,980.00</td></tr>
       <tr><td>Total Employer Contributions</td><td class="num">₱59,760.00</td><td class="num">₱50,760.00</td></tr>
-      <tr class="total"><td>Total Employer Cost</td><td class="num">₱659,760.00</td><td class="num">₱650,760.00</td></tr>
+      <tr class="total"><td>Total Employer Cost (incl. 13th mo)</td><td class="num">₱709,760.00</td><td class="num">₱670,760.00</td></tr>
     </tbody>
   </table>
 
   <div class="insight-box">
     <strong>Key Insight</strong><br>
-    Employee B takes home <strong>₱600 more per month</strong> (₱7,200/year) than Employee A despite identical gross pay. This is because PhilHealth premiums are computed only on basic salary — B's ₱20K basic means PhilHealth is ₱500/month vs. A's ₱1,250. That saves B ₱750/month in PhilHealth, partially offset by ₱150 more in BIR tax (smaller deductible contributions → slightly higher taxable income). The employer also saves ₱750/month on PhilHealth contributions for Employee B.
+    On a <em>monthly</em> basis, Employee B takes home ₱600 more than Employee A because PhilHealth is computed only on basic salary (₱500 vs ₱1,250). However, when the <strong>13th month pay</strong> is included, Employee A pulls ahead annually — A's 13th month is ₱50,000 (full basic) while B's is only ₱20,000 because the special allowance is excluded from 13th month pay computation. <strong>Net annual difference (2027): Employee A earns ₱22,800 more take-home than Employee B</strong> once 13th month is included, despite identical monthly gross. The employer also pays ₱39,000 more per year for Employee A due to the larger 13th month obligation.
   </div>
 
   <h2>BIR Withholding Tax Brackets (TRAIN Law, Jan 2023 onward)</h2>
@@ -407,7 +596,7 @@
   </table>
 
   <footer>
-    Based on 2025+ TRAIN Law rates, SSS 15% schedule, PhilHealth 5% premium, HDMF Circular 460. "Special allowance" treated as fully taxable cash compensation per RR 11-2018. 2027 figures assume no change in laws.
+    Based on 2025+ TRAIN Law rates, SSS 15% schedule, PhilHealth 5% premium, HDMF Circular 460, and PD 851 (13th month pay). "Special allowance" treated as fully taxable cash compensation per RR 11-2018, but excluded from 13th month pay base per PD 851. 2027 figures assume no change in laws.
   </footer>
 </div>
 </body>
