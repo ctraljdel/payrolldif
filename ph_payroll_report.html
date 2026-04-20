@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Philippine Payroll: Deductions & Take-Home Pay</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: #FAFAFA;
+    color: #1A1A1A;
+    margin: 0;
+    padding: 24px;
+    line-height: 1.5;
+  }
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: #FFFFFF;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    padding: 40px;
+  }
+  h1 {
+    font-size: 28px;
+    margin: 0 0 6px 0;
+    color: #1A1A1A;
+    font-weight: 700;
+  }
+  .subtitle {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 32px;
+  }
+  h2 {
+    font-size: 20px;
+    margin: 40px 0 12px 0;
+    color: #1A1A1A;
+    border-bottom: 2px solid #E0E0E0;
+    padding-bottom: 8px;
+  }
+  h3 {
+    font-size: 16px;
+    margin: 20px 0 10px 0;
+    color: #333;
+  }
+  .chart-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    margin: 20px 0;
+    padding: 16px;
+    background: #FAFAFA;
+    border-radius: 8px;
+  }
+  svg { display: block; margin: 0 auto; max-width: 100%; height: auto; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0 24px 0;
+    font-size: 14px;
+  }
+  th, td {
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid #E0E0E0;
+  }
+  th {
+    background: #F5F5F5;
+    font-weight: 600;
+    color: #333;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  tr.total td {
+    font-weight: 700;
+    background: #FFF9E6;
+    border-top: 2px solid #F9A825;
+  }
+  tr.takehome td {
+    font-weight: 700;
+    background: #E8F5E9;
+    color: #2E7D32;
+  }
+  .rules-box {
+    background: #F0F7FF;
+    border-left: 4px solid #1565C0;
+    padding: 16px 20px;
+    border-radius: 4px;
+    margin: 16px 0;
+  }
+  .rules-box ul { margin: 8px 0; padding-left: 20px; }
+  .rules-box li { margin: 4px 0; font-size: 14px; }
+  .insight-box {
+    background: #FFF3E0;
+    border-left: 4px solid #E65100;
+    padding: 16px 20px;
+    border-radius: 4px;
+    margin: 16px 0;
+  }
+  footer {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #E0E0E0;
+    font-size: 12px;
+    color: #888;
+    font-style: italic;
+  }
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  @media (max-width: 768px) {
+    .two-col { grid-template-columns: 1fr; }
+    .container { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Philippine Payroll: Deductions &amp; Take-Home Pay</h1>
+  <p class="subtitle">Monthly breakdown and period totals for April–December 2026 and January–December 2027</p>
+
+  <div class="rules-box">
+    <strong>Rules Applied</strong> (Philippine laws: NIRC, RA 10963 TRAIN Law, RR 11-2018, RA 11199 SSS Law, RA 11223 UHC Act, HDMF Circular 460)
+    <ul>
+      <li><strong>BIR withholding tax:</strong> TRAIN Law brackets, computed on (gross taxable compensation − mandatory employee contributions)</li>
+      <li><strong>Special allowance:</strong> Fixed monthly cash allowances outside the de minimis list are <em>fully taxable</em></li>
+      <li><strong>SSS:</strong> 15% total rate (5% EE + 10% ER + EC). MSC ceiling ₱35,000, includes allowances</li>
+      <li><strong>PhilHealth:</strong> 5% premium (2.5% EE + 2.5% ER). Base = <em>basic salary only</em>, floor ₱10K, ceiling ₱100K</li>
+      <li><strong>Pag-IBIG:</strong> 2% EE + 2% ER, capped at ₱10,000 monthly base (max ₱200 each)</li>
+    </ul>
+  </div>
+
+  <h2>Visual Overview</h2>
+  <div class="chart-wrapper">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1000" font-family="Helvetica, Arial, sans-serif">
+      <rect width="1400" height="1000" fill="#FFFFFF"/>
+      <text x="700" y="40" text-anchor="middle" font-size="26" font-weight="700" fill="#1A1A1A">Philippine Payroll: Deductions &amp; Take-Home Pay</text>
+      <text x="700" y="65" text-anchor="middle" font-size="14" fill="#666">Monthly breakdown + period totals (Apr-Dec 2026, Jan-Dec 2027)</text>
+
+      <g transform="translate(250, 90)">
+        <rect x="0" y="0" width="14" height="14" fill="#2E7D32"/>
+        <text x="20" y="12" font-size="13" fill="#333">Take-Home Pay</text>
+        <rect x="160" y="0" width="14" height="14" fill="#E65100"/>
+        <text x="180" y="12" font-size="13" fill="#333">BIR Withholding Tax</text>
+        <rect x="360" y="0" width="14" height="14" fill="#1565C0"/>
+        <text x="380" y="12" font-size="13" fill="#333">SSS (EE)</text>
+        <rect x="480" y="0" width="14" height="14" fill="#6A1B9A"/>
+        <text x="500" y="12" font-size="13" fill="#333">PhilHealth (EE)</text>
+        <rect x="620" y="0" width="14" height="14" fill="#00838F"/>
+        <text x="640" y="12" font-size="13" fill="#333">Pag-IBIG (EE)</text>
+        <rect x="770" y="0" width="14" height="14" fill="#757575"/>
+        <text x="790" y="12" font-size="13" fill="#333">Employer Share (ER)</text>
+      </g>
+
+      <text x="350" y="150" text-anchor="middle" font-size="18" font-weight="600" fill="#1A1A1A">Monthly Breakdown (PHP 50,000 Gross)</text>
+
+      <g transform="translate(100, 180)">
+        <line x1="0" y1="0" x2="0" y2="400" stroke="#999" stroke-width="1"/>
+        <line x1="0" y1="400" x2="500" y2="400" stroke="#999" stroke-width="1"/>
+        <g font-size="11" fill="#666">
+          <line x1="0" y1="0" x2="500" y2="0" stroke="#EEE"/><text x="-8" y="4" text-anchor="end">60,000</text>
+          <line x1="0" y1="67" x2="500" y2="67" stroke="#EEE"/><text x="-8" y="71" text-anchor="end">50,000</text>
+          <line x1="0" y1="133" x2="500" y2="133" stroke="#EEE"/><text x="-8" y="137" text-anchor="end">40,000</text>
+          <line x1="0" y1="200" x2="500" y2="200" stroke="#EEE"/><text x="-8" y="204" text-anchor="end">30,000</text>
+          <line x1="0" y1="267" x2="500" y2="267" stroke="#EEE"/><text x="-8" y="271" text-anchor="end">20,000</text>
+          <line x1="0" y1="333" x2="500" y2="333" stroke="#EEE"/><text x="-8" y="337" text-anchor="end">10,000</text>
+          <text x="-8" y="404" text-anchor="end">0</text>
+        </g>
+
+        <g transform="translate(40, 0)">
+          <rect x="0" y="118.5" width="60" height="281.5" fill="#2E7D32"/>
+          <text x="30" y="265" text-anchor="middle" font-size="11" fill="white" font-weight="600">42,232</text>
+          <text x="30" y="278" text-anchor="middle" font-size="9" fill="white">Take-Home</text>
+          <rect x="0" y="88" width="60" height="30.5" fill="#E65100"/>
+          <text x="30" y="106" text-anchor="middle" font-size="10" fill="white" font-weight="600">4,568</text>
+          <rect x="0" y="76.3" width="60" height="11.7" fill="#1565C0"/>
+          <rect x="0" y="68" width="60" height="8.3" fill="#6A1B9A"/>
+          <rect x="0" y="66.7" width="60" height="1.3" fill="#00838F"/>
+          <text x="30" y="420" text-anchor="middle" font-size="11" font-weight="600" fill="#333">Employee A</text>
+          <text x="30" y="434" text-anchor="middle" font-size="9" fill="#666">Employee Side</text>
+        </g>
+
+        <g transform="translate(130, 0)">
+          <rect x="0" y="66.7" width="60" height="33.1" fill="#757575"/>
+          <text x="30" y="85" text-anchor="middle" font-size="11" fill="white" font-weight="600">4,980</text>
+          <text x="30" y="420" text-anchor="middle" font-size="11" font-weight="600" fill="#333">Employee A</text>
+          <text x="30" y="434" text-anchor="middle" font-size="9" fill="#666">Employer Share</text>
+        </g>
+
+        <g transform="translate(270, 0)">
+          <rect x="0" y="114.5" width="60" height="285.5" fill="#2E7D32"/>
+          <text x="30" y="265" text-anchor="middle" font-size="11" fill="white" font-weight="600">42,832</text>
+          <text x="30" y="278" text-anchor="middle" font-size="9" fill="white">Take-Home</text>
+          <rect x="0" y="83" width="60" height="31.5" fill="#E65100"/>
+          <text x="30" y="101" text-anchor="middle" font-size="10" fill="white" font-weight="600">4,718</text>
+          <rect x="0" y="71.3" width="60" height="11.7" fill="#1565C0"/>
+          <rect x="0" y="68" width="60" height="3.3" fill="#6A1B9A"/>
+          <rect x="0" y="66.7" width="60" height="1.3" fill="#00838F"/>
+          <text x="30" y="420" text-anchor="middle" font-size="11" font-weight="600" fill="#333">Employee B</text>
+          <text x="30" y="434" text-anchor="middle" font-size="9" fill="#666">Employee Side</text>
+        </g>
+
+        <g transform="translate(360, 0)">
+          <rect x="0" y="71.8" width="60" height="28.2" fill="#757575"/>
+          <text x="30" y="90" text-anchor="middle" font-size="11" fill="white" font-weight="600">4,230</text>
+          <text x="30" y="420" text-anchor="middle" font-size="11" font-weight="600" fill="#333">Employee B</text>
+          <text x="30" y="434" text-anchor="middle" font-size="9" fill="#666">Employer Share</text>
+        </g>
+
+        <line x1="0" y1="66.7" x2="500" y2="66.7" stroke="#D32F2F" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="500" y="63" text-anchor="end" font-size="10" fill="#D32F2F" font-weight="600">Gross: 50,000</text>
+        <text x="250" y="465" text-anchor="middle" font-size="11" fill="#666" font-style="italic">Monthly PHP amounts</text>
+      </g>
+
+      <text x="1050" y="150" text-anchor="middle" font-size="18" font-weight="600" fill="#1A1A1A">Employee-Side Deduction Mix (Monthly)</text>
+
+      <g transform="translate(950, 340)">
+        <text x="0" y="-95" text-anchor="middle" font-size="13" font-weight="600" fill="#333">Employee A</text>
+        <text x="0" y="-78" text-anchor="middle" font-size="10" fill="#666">Total: PHP 7,768 / mo</text>
+        <g stroke-width="24" fill="none">
+          <circle cx="0" cy="0" r="80" stroke="#E65100" stroke-dasharray="295.56 502.65" transform="rotate(-90)"/>
+          <circle cx="0" cy="0" r="80" stroke="#1565C0" stroke-dasharray="113.1 502.65" stroke-dashoffset="-295.56" transform="rotate(-90)"/>
+          <circle cx="0" cy="0" r="80" stroke="#6A1B9A" stroke-dasharray="80.9 502.65" stroke-dashoffset="-408.66" transform="rotate(-90)"/>
+          <circle cx="0" cy="0" r="80" stroke="#00838F" stroke-dasharray="13.07 502.65" stroke-dashoffset="-489.56" transform="rotate(-90)"/>
+        </g>
+        <text x="0" y="-5" text-anchor="middle" font-size="20" font-weight="700" fill="#333">15.5%</text>
+        <text x="0" y="15" text-anchor="middle" font-size="10" fill="#666">of gross</text>
+      </g>
+
+      <g transform="translate(1200, 340)">
+        <text x="0" y="-95" text-anchor="middle" font-size="13" font-weight="600" fill="#333">Employee B</text>
+        <text x="0" y="-78" text-anchor="middle" font-size="10" fill="#666">Total: PHP 7,168 / mo</text>
+        <g stroke-width="24" fill="none">
+          <circle cx="0" cy="0" r="80" stroke="#E65100" stroke-dasharray="330.74 502.65" transform="rotate(-90)"/>
+          <circle cx="0" cy="0" r="80" stroke="#1565C0" stroke-dasharray="122.65 502.65" stroke-dashoffset="-330.74" transform="rotate(-90)"/>
+          <circle cx="0" cy="0" r="80" stroke="#6A1B9A" stroke-dasharray="35.18 502.65" stroke-dashoffset="-453.39" transform="rotate(-90)"/>
+          <circle cx="0" cy="0" r="80" stroke="#00838F" stroke-dasharray="14.07 502.65" stroke-dashoffset="-488.57" transform="rotate(-90)"/>
+        </g>
+        <text x="0" y="-5" text-anchor="middle" font-size="20" font-weight="700" fill="#333">14.3%</text>
+        <text x="0" y="15" text-anchor="middle" font-size="10" fill="#666">of gross</text>
+      </g>
+
+      <text x="700" y="610" text-anchor="middle" font-size="18" font-weight="600" fill="#1A1A1A">Period Totals: Gross vs Take-Home vs Deductions</text>
+
+      <g transform="translate(130, 650)">
+        <line x1="0" y1="0" x2="0" y2="260" stroke="#999"/>
+        <line x1="0" y1="260" x2="1140" y2="260" stroke="#999"/>
+        <g font-size="11" fill="#666">
+          <line x1="0" y1="0" x2="1140" y2="0" stroke="#EEE"/><text x="-8" y="4" text-anchor="end">700k</text>
+          <line x1="0" y1="37" x2="1140" y2="37" stroke="#EEE"/><text x="-8" y="41" text-anchor="end">600k</text>
+          <line x1="0" y1="74" x2="1140" y2="74" stroke="#EEE"/><text x="-8" y="78" text-anchor="end">500k</text>
+          <line x1="0" y1="111" x2="1140" y2="111" stroke="#EEE"/><text x="-8" y="115" text-anchor="end">400k</text>
+          <line x1="0" y1="149" x2="1140" y2="149" stroke="#EEE"/><text x="-8" y="153" text-anchor="end">300k</text>
+          <line x1="0" y1="186" x2="1140" y2="186" stroke="#EEE"/><text x="-8" y="190" text-anchor="end">200k</text>
+          <line x1="0" y1="223" x2="1140" y2="223" stroke="#EEE"/><text x="-8" y="227" text-anchor="end">100k</text>
+          <text x="-8" y="264" text-anchor="end">0</text>
+        </g>
+
+        <g transform="translate(50, 0)">
+          <rect x="0" y="93" width="50" height="167" fill="#E0E0E0" stroke="#BDBDBD"/>
+          <text x="25" y="85" text-anchor="middle" font-size="10" fill="#333" font-weight="600">450,000</text>
+          <rect x="60" y="119" width="50" height="141" fill="#2E7D32"/>
+          <text x="85" y="111" text-anchor="middle" font-size="10" fill="#333" font-weight="600">380,085</text>
+          <rect x="120" y="234" width="50" height="26" fill="#E65100"/>
+          <text x="145" y="226" text-anchor="middle" font-size="10" fill="#333" font-weight="600">69,915</text>
+          <text x="85" y="278" text-anchor="middle" font-size="11" font-weight="600" fill="#333">Employee A</text>
+          <text x="85" y="292" text-anchor="middle" font-size="10" fill="#666">Apr-Dec 2026</text>
+        </g>
+
+        <g transform="translate(320, 0)">
+          <rect x="0" y="37" width="50" height="223" fill="#E0E0E0" stroke="#BDBDBD"/>
+          <text x="25" y="29" text-anchor="middle" font-size="10" fill="#333" font-weight="600">600,000</text>
+          <rect x="60" y="72" width="50" height="188" fill="#2E7D32"/>
+          <text x="85" y="64" text-anchor="middle" font-size="10" fill="#333" font-weight="600">506,780</text>
+          <rect x="120" y="225" width="50" height="35" fill="#E65100"/>
+          <text x="145" y="217" text-anchor="middle" font-size="10" fill="#333" font-weight="600">93,220</text>
+          <text x="85" y="278" text-anchor="middle" font-size="11" font-weight="600" fill="#333">Employee A</text>
+          <text x="85" y="292" text-anchor="middle" font-size="10" fill="#666">Jan-Dec 2027</text>
+        </g>
+
+        <g transform="translate(590, 0)">
+          <rect x="0" y="93" width="50" height="167" fill="#E0E0E0" stroke="#BDBDBD"/>
+          <text x="25" y="85" text-anchor="middle" font-size="10" fill="#333" font-weight="600">450,000</text>
+          <rect x="60" y="117" width="50" height="143" fill="#2E7D32"/>
+          <text x="85" y="109" text-anchor="middle" font-size="10" fill="#333" font-weight="600">385,485</text>
+          <rect x="120" y="236" width="50" height="24" fill="#E65100"/>
+          <text x="145" y="228" text-anchor="middle" font-size="10" fill="#333" font-weight="600">64,515</text>
+          <text x="85" y="278" text-anchor="middle" font-size="11" font-weight="600" fill="#333">Employee B</text>
+          <text x="85" y="292" text-anchor="middle" font-size="10" fill="#666">Apr-Dec 2026</text>
+        </g>
+
+        <g transform="translate(860, 0)">
+          <rect x="0" y="37" width="50" height="223" fill="#E0E0E0" stroke="#BDBDBD"/>
+          <text x="25" y="29" text-anchor="middle" font-size="10" fill="#333" font-weight="600">600,000</text>
+          <rect x="60" y="69" width="50" height="191" fill="#2E7D32"/>
+          <text x="85" y="61" text-anchor="middle" font-size="10" fill="#333" font-weight="600">513,980</text>
+          <rect x="120" y="228" width="50" height="32" fill="#E65100"/>
+          <text x="145" y="220" text-anchor="middle" font-size="10" fill="#333" font-weight="600">86,020</text>
+          <text x="85" y="278" text-anchor="middle" font-size="11" font-weight="600" fill="#333">Employee B</text>
+          <text x="85" y="292" text-anchor="middle" font-size="10" fill="#666">Jan-Dec 2027</text>
+        </g>
+
+        <g transform="translate(460, 315)" font-size="11" fill="#333">
+          <rect x="0" y="0" width="14" height="14" fill="#E0E0E0" stroke="#BDBDBD"/>
+          <text x="20" y="12">Gross Pay</text>
+          <rect x="110" y="0" width="14" height="14" fill="#2E7D32"/>
+          <text x="130" y="12">Take-Home</text>
+          <rect x="220" y="0" width="14" height="14" fill="#E65100"/>
+          <text x="240" y="12">Total Deductions (EE share)</text>
+        </g>
+      </g>
+    </svg>
+  </div>
+
+  <h2>Monthly Computation Breakdown</h2>
+  <p>Both employees have <strong>PHP 50,000 total gross pay</strong>, but different base structures produce different deductions and take-home amounts.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Line Item</th>
+        <th class="num">Employee A<br><small>(₱50,000 Basic)</small></th>
+        <th class="num">Employee B<br><small>(₱20,000 Basic + ₱30,000 Allowance)</small></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Basic Salary</td><td class="num">₱50,000.00</td><td class="num">₱20,000.00</td></tr>
+      <tr><td>Special Allowance</td><td class="num">—</td><td class="num">₱30,000.00</td></tr>
+      <tr><td><strong>Gross Monthly Pay</strong></td><td class="num"><strong>₱50,000.00</strong></td><td class="num"><strong>₱50,000.00</strong></td></tr>
+      <tr><td colspan="3" style="background:#F5F5F5; font-weight:600; font-size:12px; color:#666; text-transform:uppercase;">Employee-Side Deductions</td></tr>
+      <tr><td>SSS (5% of MSC)</td><td class="num">₱1,750.00</td><td class="num">₱1,750.00</td></tr>
+      <tr><td>PhilHealth (2.5% of basic)</td><td class="num">₱1,250.00</td><td class="num">₱500.00</td></tr>
+      <tr><td>Pag-IBIG (2%, capped)</td><td class="num">₱200.00</td><td class="num">₱200.00</td></tr>
+      <tr><td>BIR Withholding Tax</td><td class="num">₱4,568.33</td><td class="num">₱4,718.33</td></tr>
+      <tr class="total"><td>Total Deductions</td><td class="num">₱7,768.33</td><td class="num">₱7,168.33</td></tr>
+      <tr class="takehome"><td>Monthly Take-Home Pay</td><td class="num">₱42,231.67</td><td class="num">₱42,831.67</td></tr>
+      <tr><td colspan="3" style="background:#F5F5F5; font-weight:600; font-size:12px; color:#666; text-transform:uppercase;">Employer-Side Contributions</td></tr>
+      <tr><td>SSS Employer (10%) + EC</td><td class="num">₱3,530.00</td><td class="num">₱3,530.00</td></tr>
+      <tr><td>PhilHealth Employer (2.5%)</td><td class="num">₱1,250.00</td><td class="num">₱500.00</td></tr>
+      <tr><td>Pag-IBIG Employer (2%, capped)</td><td class="num">₱200.00</td><td class="num">₱200.00</td></tr>
+      <tr class="total"><td>Total Employer Contributions</td><td class="num">₱4,980.00</td><td class="num">₱4,230.00</td></tr>
+      <tr class="total"><td>Total Employer Cost / Month</td><td class="num">₱54,980.00</td><td class="num">₱54,230.00</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Period Totals</h2>
+
+  <h3>April – December 2026 (9 months)</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th class="num">Employee A</th>
+        <th class="num">Employee B</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Total Gross Pay</td><td class="num">₱450,000.00</td><td class="num">₱450,000.00</td></tr>
+      <tr><td>Total Employee Deductions</td><td class="num">₱69,915.00</td><td class="num">₱64,515.00</td></tr>
+      <tr class="takehome"><td>Total Take-Home Pay</td><td class="num">₱380,085.00</td><td class="num">₱385,485.00</td></tr>
+      <tr><td>Total Employer Contributions</td><td class="num">₱44,820.00</td><td class="num">₱38,070.00</td></tr>
+      <tr class="total"><td>Total Employer Cost</td><td class="num">₱494,820.00</td><td class="num">₱488,070.00</td></tr>
+    </tbody>
+  </table>
+
+  <h3>January – December 2027 (12 months, full year)</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th class="num">Employee A</th>
+        <th class="num">Employee B</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Total Gross Pay</td><td class="num">₱600,000.00</td><td class="num">₱600,000.00</td></tr>
+      <tr><td>Total Employee Deductions</td><td class="num">₱93,220.00</td><td class="num">₱86,020.00</td></tr>
+      <tr class="takehome"><td>Total Take-Home Pay</td><td class="num">₱506,780.00</td><td class="num">₱513,980.00</td></tr>
+      <tr><td>Total Employer Contributions</td><td class="num">₱59,760.00</td><td class="num">₱50,760.00</td></tr>
+      <tr class="total"><td>Total Employer Cost</td><td class="num">₱659,760.00</td><td class="num">₱650,760.00</td></tr>
+    </tbody>
+  </table>
+
+  <div class="insight-box">
+    <strong>Key Insight</strong><br>
+    Employee B takes home <strong>₱600 more per month</strong> (₱7,200/year) than Employee A despite identical gross pay. This is because PhilHealth premiums are computed only on basic salary — B's ₱20K basic means PhilHealth is ₱500/month vs. A's ₱1,250. That saves B ₱750/month in PhilHealth, partially offset by ₱150 more in BIR tax (smaller deductible contributions → slightly higher taxable income). The employer also saves ₱750/month on PhilHealth contributions for Employee B.
+  </div>
+
+  <h2>BIR Withholding Tax Brackets (TRAIN Law, Jan 2023 onward)</h2>
+  <table>
+    <thead>
+      <tr><th>Annual Taxable Income</th><th class="num">Tax</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Not over ₱250,000</td><td class="num">0%</td></tr>
+      <tr><td>Over ₱250,000 but not over ₱400,000</td><td class="num">15% of excess over ₱250,000</td></tr>
+      <tr><td>Over ₱400,000 but not over ₱800,000</td><td class="num">₱22,500 + 20% of excess over ₱400,000</td></tr>
+      <tr><td>Over ₱800,000 but not over ₱2,000,000</td><td class="num">₱102,500 + 25% of excess over ₱800,000</td></tr>
+      <tr><td>Over ₱2,000,000 but not over ₱8,000,000</td><td class="num">₱402,500 + 30% of excess over ₱2,000,000</td></tr>
+      <tr><td>Over ₱8,000,000</td><td class="num">₱2,202,500 + 35% of excess over ₱8,000,000</td></tr>
+    </tbody>
+  </table>
+
+  <footer>
+    Based on 2025+ TRAIN Law rates, SSS 15% schedule, PhilHealth 5% premium, HDMF Circular 460. "Special allowance" treated as fully taxable cash compensation per RR 11-2018. 2027 figures assume no change in laws.
+  </footer>
+</div>
+</body>
+</html>
